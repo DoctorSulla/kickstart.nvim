@@ -29,6 +29,9 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
 
+  -- Tabby
+  "TabbyML/vim-tabby",
+
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
@@ -590,11 +593,18 @@ local opts = { noremap = true, silent = true }
 
 -- Move to next
 map('n', '<Tab>', '<Cmd>BufferNext<CR>', opts)
+-- Move to previous
+map('n', '<S-Tab>', '<Cmd>BufferPrevious<CR>', opts)
 -- Re-order to previous/next
 map('n', '<A-<>', '<Cmd>BufferMovePrevious<CR>', opts)
 map('n', '<A->>', '<Cmd>BufferMoveNext<CR>', opts)
 
 vim.keymap.set('n', '<leader>b', '<Cmd>tabnew<CR>', { desc = 'new [b]uffer' })
 
+-- Tabby Keybindings
+vim.g.tabby_keybinding_accept = '<A-a>'
+vim.g.tabby_keybinding_trigger_or_dismiss = '<A-c>'
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+--
