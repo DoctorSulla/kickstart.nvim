@@ -208,7 +208,17 @@ require('lazy').setup({
   --    Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-  -- { import = 'custom.plugins' },
+
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+  }
+
 }, {})
 
 -- [[ Setting options ]]
@@ -497,9 +507,6 @@ require('mason-lspconfig').setup()
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-  -- clangd = {},
-  -- gopls = {},
-  -- pyright = {},
   rust_analyzer = {},
   tsserver = {},
   html = { filetypes = { 'html', 'twig', 'hbs' } },
@@ -591,6 +598,8 @@ cmp.setup {
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
+-- barbar Keybindings
+
 -- Move to next
 map('n', '<Tab>', '<Cmd>BufferNext<CR>', opts)
 -- Move to previous
@@ -604,6 +613,18 @@ vim.keymap.set('n', '<leader>b', '<Cmd>tabnew<CR>', { desc = 'new [b]uffer' })
 -- Tabby Keybindings
 vim.g.tabby_keybinding_accept = '<A-a>'
 vim.g.tabby_keybinding_trigger_or_dismiss = '<A-c>'
+
+-- Trouble Keybindings
+
+vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle() end, { desc = 'Toggle trouble' })
+vim.keymap.set("n", "<leader>xw", function() require("trouble").toggle("workspace_diagnostics") end,
+  { desc = 'Toggle workspace diagnostics' })
+vim.keymap.set("n", "<leader>xd", function() require("trouble").toggle("document_diagnostics") end,
+  { desc = 'Toggle document diagnostics' })
+vim.keymap.set("n", "<leader>xq", function() require("trouble").toggle("quickfix") end, { desc = 'Toggle quickfix' })
+vim.keymap.set("n", "<leader>xl", function() require("trouble").toggle("loclist") end, { desc = 'Toggle location list' })
+vim.keymap.set("n", "gR", function() require("trouble").toggle("lsp_references") end, { desc = 'Toggle lsp references' })
+
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
