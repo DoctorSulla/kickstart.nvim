@@ -1,6 +1,3 @@
--- Set <space> as the leader key
--- See `:help mapleader`
---  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -28,9 +25,6 @@ vim.opt.rtp:prepend(lazypath)
 --    as they will be available in your neovim runtime.
 require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
-
-  -- Tabby
-  "TabbyML/vim-tabby",
 
   -- Git related plugins
   'tpope/vim-fugitive',
@@ -286,7 +280,7 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
-    vim.highlight.on_yank()
+    vim.hl.on_yank()
   end,
   group = highlight_group,
   pattern = '*',
@@ -483,15 +477,24 @@ local on_attach = function(_, bufnr)
 end
 
 -- document existing key chains
-require('which-key').register {
-  ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-  ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-  ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-  ['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
-  ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-  ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-  ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+require('which-key').add
+{
+  { "<leader>c",  group = "[C]ode" },
+  { "<leader>c_", hidden = true },
+  { "<leader>d",  group = "[D]ocument" },
+  { "<leader>d_", hidden = true },
+  { "<leader>g",  group = "[G]it" },
+  { "<leader>g_", hidden = true },
+  { "<leader>h",  group = "More git" },
+  { "<leader>h_", hidden = true },
+  { "<leader>r",  group = "[R]ename" },
+  { "<leader>r_", hidden = true },
+  { "<leader>s",  group = "[S]earch" },
+  { "<leader>s_", hidden = true },
+  { "<leader>w",  group = "[W]orkspace" },
+  { "<leader>w_", hidden = true },
 }
+
 
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
@@ -507,8 +510,28 @@ require('mason-lspconfig').setup()
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-  rust_analyzer = {},
-  tsserver = {},
+  tailwindcss = {
+    filetypes = { 'rust', 'css', 'scss', 'html' },
+    ["tailwindCSS"] = {
+      validate = "ignore"
+    }
+  },
+  cssls = {},
+  rust_analyzer = {
+    ["rust-analyzer"] = {
+      rustfmt = {
+        overrideCommand = { "leptosfmt", "--stdin", "--rustfmt" },
+      },
+      procMacro = {
+        ignored = {
+          leptos_macro = {
+            "server",
+          },
+        },
+      },
+    },
+  },
+  ts_ls = {},
   html = { filetypes = { 'html', 'twig', 'hbs' } },
   denols = {},
   lua_ls = {
@@ -610,10 +633,6 @@ map('n', '<A->>', '<Cmd>BufferMoveNext<CR>', opts)
 
 vim.keymap.set('n', '<leader>b', '<Cmd>tabnew<CR>', { desc = 'new [b]uffer' })
 
--- Tabby Keybindings
-vim.g.tabby_keybinding_accept = '<A-a>'
-vim.g.tabby_keybinding_trigger_or_dismiss = '<A-c>'
-
 -- Trouble Keybindings
 
 vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle() end, { desc = 'Toggle trouble' })
@@ -627,9 +646,3 @@ vim.keymap.set("n", "gR", function() require("trouble").toggle("lsp_references")
 
 -- Custom Keybindings
 map('i', 'jj', '<Esc>', opts)
-
-
-
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
---
