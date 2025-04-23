@@ -510,27 +510,7 @@ require('mason-lspconfig').setup()
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-  tailwindcss = {
-    filetypes = { 'rust', 'css', 'scss', 'html' },
-    ["tailwindCSS"] = {
-      validate = "ignore"
-    }
-  },
-  cssls = {},
-  rust_analyzer = {
-    ["rust-analyzer"] = {
-      rustfmt = {
-        overrideCommand = { "leptosfmt", "--stdin", "--rustfmt" },
-      },
-      procMacro = {
-        ignored = {
-          leptos_macro = {
-            "server",
-          },
-        },
-      },
-    },
-  },
+  rust_analyzer = {},
   ts_ls = {},
   html = { filetypes = { 'html', 'twig', 'hbs' } },
   denols = {},
