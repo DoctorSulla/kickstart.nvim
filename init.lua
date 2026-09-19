@@ -366,7 +366,23 @@ do
   map('n', '<Space>bw', '<Cmd>BufferOrderByWindowNumber<CR>', opts)
 end
 
+--------------------
+-- blink.cmp      --
+--------------------
+
 do
   vim.pack.add { { src = gh 'saghen/blink.cmp', version = vim.version.range '1.*' } }
   require('blink.cmp').setup()
+end
+
+--------------------
+-- trouble      --
+--------------------
+
+do
+  vim.pack.add { gh 'folke/trouble.nvim' }
+  require('trouble').setup {}
+
+  vim.keymap.set('n', '<leader>xx', '<cmd>Trouble diagnostics toggle<cr>', { desc = 'Diagnostics (Trouble)' })
+  vim.keymap.set('n', '<leader>xX', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', { desc = 'Buffer diagnostics (Trouble)' })
 end
