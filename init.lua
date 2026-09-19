@@ -365,3 +365,8 @@ do
   map('n', '<Space>bl', '<Cmd>BufferOrderByLanguage<CR>', opts)
   map('n', '<Space>bw', '<Cmd>BufferOrderByWindowNumber<CR>', opts)
 end
+
+do
+  vim.pack.add { { src = gh 'saghen/blink.cmp', version = vim.version.range '1.*' } }
+  require('blink.cmp').setup()
+end
