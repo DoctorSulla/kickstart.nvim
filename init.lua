@@ -278,7 +278,7 @@ end
 do
   vim.pack.add { gh 'neovim/nvim-lspconfig' }
 
-  local servers = { rust_analyzer = {}, ruff = {} }
+  local servers = { rust_analyzer = {}, ruff = {}, svelte = {} }
 
   for key, value in pairs(servers) do
     vim.lsp.enable(key)
