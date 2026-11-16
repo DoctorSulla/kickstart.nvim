@@ -268,7 +268,7 @@ end
 
 do
   vim.pack.add { gh 'nvim-treesitter/nvim-treesitter' }
-  require('nvim-treesitter').install { 'rust', 'javascript', 'zig', 'python' }
+  require('nvim-treesitter').install { 'rust', 'javascript', 'zig', 'python', 'svelte' }
 end
 
 --------------------------------
